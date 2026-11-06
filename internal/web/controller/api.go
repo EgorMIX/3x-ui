@@ -128,6 +128,24 @@ var nodeAdminScopeAllow = map[string]map[string]struct{}{
 	"/server/updatePanel": {http.MethodPost: {}},
 }
 
+// portalScopeAllow is the subscription-portal route/method allowlist relative to
+// /panel/api. It covers one client at a time: no deletes, bulk or import/export
+// routes, and nothing that changes inbounds, settings, Xray, or nodes.
+var portalScopeAllow = map[string]map[string]struct{}{
+	"/inbounds/options":         {http.MethodGet: {}},
+	"/clients/list/paged":       {http.MethodGet: {}},
+	"/clients/get/:email":       {http.MethodGet: {}},
+	"/clients/get/subId/:subId": {http.MethodGet: {}},
+	"/clients/traffic/:email":   {http.MethodGet: {}},
+	"/clients/subLinks/:subId":  {http.MethodGet: {}},
+	"/clients/add":              {http.MethodPost: {}},
+	"/clients/update/:email":    {http.MethodPost: {}},
+	"/clients/:email/attach":    {http.MethodPost: {}},
+	"/clients/:email/detach":    {http.MethodPost: {}},
+	"/clients/hwids/:email":     {http.MethodPost: {}},
+	"/clients/hwids/:email/:id": {http.MethodDelete: {}},
+}
+
 func scopeAllows(allow map[string]map[string]struct{}, path, method string) bool {
 	methods, exists := allow[path]
 	if !exists {
@@ -170,6 +188,11 @@ func (a *APIController) enforceTokenScope(c *gin.Context) {
 		}
 	case model.ApiScopeNodeAdmin:
 		if scopeAllows(nodeSyncScopeAllow, rel, c.Request.Method) || scopeAllows(nodeAdminScopeAllow, rel, c.Request.Method) {
+			c.Next()
+			return
+		}
+	case model.ApiScopePortal:
+		if scopeAllows(portalScopeAllow, rel, c.Request.Method) {
 			c.Next()
 			return
 		}

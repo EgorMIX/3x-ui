@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "Đồng bộ cấu hình node, inbound, client, lưu lượng và trạng thái Xray. Không thể cập nhật phần mềm panel.",
         "apiTokenScopeNodeAdmin": "Quản trị node",
         "apiTokenScopeNodeAdminDesc": "Bao gồm quyền đồng bộ node và cũng có thể khởi chạy cập nhật phần mềm panel.",
+        "apiTokenScopePortal": "Cổng đăng ký",
+        "apiTokenScopePortalDesc": "Quản lý đăng ký của client, thiết bị và việc gán inbound cho cổng đăng ký. Không thể xóa client hoặc thay đổi inbound, cài đặt và Xray.",
         "apiTokenEmpty": "Chưa có token nào — tạo một token để xác thực bot hoặc panel từ xa.",
         "apiTokenDeleteWarning": "Mọi client đang dùng token này sẽ ngừng xác thực ngay lập tức.",
         "apiTokenCreatedTitle": "Đã tạo token",

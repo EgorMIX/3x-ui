@@ -168,10 +168,11 @@ const (
 	ApiScopeMonitor   = "monitor"
 	ApiScopeNodeSync  = "node-sync"
 	ApiScopeNodeAdmin = "node-admin"
+	ApiScopePortal    = "portal"
 )
 
 func IsKnownApiScope(s string) bool {
-	return s == ApiScopeAdmin || s == ApiScopeMonitor || s == ApiScopeNodeSync || s == ApiScopeNodeAdmin
+	return s == ApiScopeAdmin || s == ApiScopeMonitor || s == ApiScopeNodeSync || s == ApiScopeNodeAdmin || s == ApiScopePortal
 }
 
 func IsNodeSyncApiScope(s string) bool {

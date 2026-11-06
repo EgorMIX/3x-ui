@@ -1605,6 +1605,8 @@
         "apiTokenScopeNodeSyncDesc": "Synchronizes node configuration, inbounds, clients, traffic, and Xray state. Cannot update panel software.",
         "apiTokenScopeNodeAdmin": "Node administrator",
         "apiTokenScopeNodeAdminDesc": "Includes node synchronization permissions and can also start panel software updates.",
+        "apiTokenScopePortal": "Subscription portal",
+        "apiTokenScopePortalDesc": "Manages client subscriptions, devices, and inbound assignments for a subscription portal. Cannot delete clients or change inbounds, settings, or Xray.",
         "apiTokenEmpty": "No tokens yet — create one to authenticate bots or remote panels.",
         "apiTokenDeleteWarning": "Any caller using this token will stop authenticating immediately.",
         "apiTokenCreatedTitle": "Token created",

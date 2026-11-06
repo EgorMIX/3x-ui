@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "同步節點設定、入站、用戶端、流量和 Xray 狀態。無法更新面板軟體。",
         "apiTokenScopeNodeAdmin": "節點管理員",
         "apiTokenScopeNodeAdminDesc": "包含節點同步權限，也可以啟動面板軟體更新。",
+        "apiTokenScopePortal": "訂閱入口",
+        "apiTokenScopePortalDesc": "為訂閱入口管理用戶端訂閱、裝置和入站指派。無法刪除用戶端，也無法變更入站、設定和 Xray。",
         "apiTokenEmpty": "尚無令牌 — 建立一個以認證機器人或遠端面板。",
         "apiTokenDeleteWarning": "使用此令牌的任何呼叫方將立即無法認證。",
         "apiTokenCreatedTitle": "權杖已建立",

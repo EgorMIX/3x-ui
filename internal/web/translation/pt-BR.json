@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "Sincroniza configuração do nó, entradas, clientes, tráfego e estado do Xray. Não pode atualizar o software do painel.",
         "apiTokenScopeNodeAdmin": "Administrador de nó",
         "apiTokenScopeNodeAdminDesc": "Inclui as permissões de sincronização do nó e também pode iniciar atualizações do software do painel.",
+        "apiTokenScopePortal": "Portal de assinaturas",
+        "apiTokenScopePortalDesc": "Gerencia assinaturas de clientes, dispositivos e a atribuição a entradas para um portal de assinaturas. Não pode excluir clientes nem alterar entradas, configurações ou Xray.",
         "apiTokenEmpty": "Nenhum token ainda — crie um para autenticar bots ou painéis remotos.",
         "apiTokenDeleteWarning": "Qualquer cliente usando este token deixará de se autenticar imediatamente.",
         "apiTokenCreatedTitle": "Token criado",

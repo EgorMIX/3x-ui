@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "同步节点配置、入站、客户端、流量和 Xray 状态。不能更新面板软件。",
         "apiTokenScopeNodeAdmin": "节点管理员",
         "apiTokenScopeNodeAdminDesc": "包含节点同步权限，还可以启动面板软件更新。",
+        "apiTokenScopePortal": "订阅门户",
+        "apiTokenScopePortalDesc": "为订阅门户管理客户端订阅、设备和入站分配。不能删除客户端，也不能更改入站、设置和 Xray。",
         "apiTokenEmpty": "暂无令牌 — 创建一个用于认证机器人或远程面板。",
         "apiTokenDeleteWarning": "使用此令牌的任何调用方将立即无法认证。",
         "apiTokenCreatedTitle": "令牌已创建",

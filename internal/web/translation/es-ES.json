@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "Sincroniza la configuración del nodo, entradas, clientes, tráfico y estado de Xray. No puede actualizar el software del panel.",
         "apiTokenScopeNodeAdmin": "Administrador de nodo",
         "apiTokenScopeNodeAdminDesc": "Incluye los permisos de sincronización de nodo y también puede iniciar actualizaciones del software del panel.",
+        "apiTokenScopePortal": "Portal de suscripciones",
+        "apiTokenScopePortalDesc": "Gestiona las suscripciones de clientes, sus dispositivos y su asignación a entradas para un portal de suscripciones. No puede eliminar clientes ni cambiar entradas, ajustes o Xray.",
         "apiTokenEmpty": "Aún no hay tokens — crea uno para autenticar bots o paneles remotos.",
         "apiTokenDeleteWarning": "Cualquier cliente que use este token dejará de autenticarse inmediatamente.",
         "apiTokenCreatedTitle": "Token creado",

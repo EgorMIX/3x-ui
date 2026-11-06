@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "Menyinkronkan konfigurasi node, inbound, klien, trafik, dan status Xray. Tidak dapat memperbarui perangkat lunak panel.",
         "apiTokenScopeNodeAdmin": "Administrator node",
         "apiTokenScopeNodeAdminDesc": "Mencakup izin sinkronisasi node dan juga dapat memulai pembaruan perangkat lunak panel.",
+        "apiTokenScopePortal": "Portal langganan",
+        "apiTokenScopePortalDesc": "Mengelola langganan klien, perangkat, dan penetapan inbound untuk portal langganan. Tidak dapat menghapus klien atau mengubah inbound, pengaturan, dan Xray.",
         "apiTokenEmpty": "Belum ada token — buat satu untuk mengautentikasi bot atau panel jarak jauh.",
         "apiTokenDeleteWarning": "Setiap pemanggil yang menggunakan token ini akan berhenti terautentikasi segera.",
         "apiTokenCreatedTitle": "Token dibuat",

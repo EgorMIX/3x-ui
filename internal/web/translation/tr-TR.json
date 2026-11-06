@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "Düğüm yapılandırmasını, gelen bağlantıları, istemcileri, trafiği ve Xray durumunu senkronize eder. Panel yazılımını güncelleyemez.",
         "apiTokenScopeNodeAdmin": "Düğüm yöneticisi",
         "apiTokenScopeNodeAdminDesc": "Düğüm senkronizasyonu izinlerini içerir ve panel yazılımı güncellemelerini de başlatabilir.",
+        "apiTokenScopePortal": "Abonelik portalı",
+        "apiTokenScopePortalDesc": "Abonelik portalı için istemci aboneliklerini, cihazları ve gelen bağlantı atamalarını yönetir. İstemcileri silemez; gelen bağlantıları, ayarları ve Xray'i değiştiremez.",
         "apiTokenEmpty": "Henüz token yok — botları veya uzak panelleri doğrulamak için bir tane oluşturun.",
         "apiTokenDeleteWarning": "Bu token'ı kullanan tüm bağlantılar anında kimlik doğrulamasını kaybeder.",
         "apiTokenCreatedTitle": "Token Oluşturuldu",

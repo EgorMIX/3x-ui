@@ -2078,7 +2078,7 @@ export const sections: readonly Section[] = [
     id: 'api-tokens',
     title: 'API Tokens',
     description:
-      'Manage scoped Bearer tokens for programmatic auth. admin grants the full panel API; monitor is read-only for status and metrics; node-sync manages node configuration without panel updates; node-admin adds panel self-update to node-sync. Tokens may expire and are stored as SHA-256 hashes. The plaintext is returned only once at creation.',
+      'Manage scoped Bearer tokens for programmatic auth. admin grants the full panel API; monitor is read-only for status and metrics; node-sync manages node configuration without panel updates; node-admin adds panel self-update to node-sync; portal manages individual clients for a subscription portal without deleting them. Tokens may expire and are stored as SHA-256 hashes. The plaintext is returned only once at creation.',
     endpoints: [
       {
         method: 'GET',
@@ -2104,8 +2104,8 @@ export const sections: readonly Section[] = [
             name: 'scope',
             in: 'body',
             type: 'string',
-            desc: 'admin (default), monitor, node-sync, or node-admin. node-admin inherits node-sync and may also start a panel update.',
-            enum: ['admin', 'monitor', 'node-sync', 'node-admin'],
+            desc: 'admin (default), monitor, node-sync, node-admin, or portal. node-admin inherits node-sync and may also start a panel update. portal is limited to the client routes a subscription portal needs.',
+            enum: ['admin', 'monitor', 'node-sync', 'node-admin', 'portal'],
             optional: true,
           },
           {
