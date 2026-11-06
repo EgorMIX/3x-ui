@@ -129,7 +129,9 @@ func TestRecreateByNameAppliesGivenScope(t *testing.T) {
 		{name: "replaces a monitor token as node-sync", seedScope: model.ApiScopeMonitor, scope: model.ApiScopeNodeSync, want: model.ApiScopeNodeSync},
 		{name: "replaces a monitor token as node-admin", seedScope: model.ApiScopeMonitor, scope: model.ApiScopeNodeAdmin, want: model.ApiScopeNodeAdmin},
 		{name: "creates a new token as monitor", scope: model.ApiScopeMonitor, want: model.ApiScopeMonitor},
-		{name: "refuses an unknown scope", seedScope: model.ApiScopeMonitor, scope: "root", want: model.ApiScopeMonitor, wantErr: "scope must be 'admin', 'monitor', 'node-sync', or 'node-admin'"},
+		{name: "creates a new token as portal", scope: model.ApiScopePortal, want: model.ApiScopePortal},
+		{name: "keeps portal when no scope is given", seedScope: model.ApiScopePortal, want: model.ApiScopePortal},
+		{name: "refuses an unknown scope", seedScope: model.ApiScopeMonitor, scope: "root", want: model.ApiScopeMonitor, wantErr: "scope must be 'admin', 'monitor', 'node-sync', 'node-admin', or 'portal'"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

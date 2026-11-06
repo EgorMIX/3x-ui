@@ -1605,6 +1605,8 @@
         "apiTokenScopeNodeSyncDesc": "Synchronizuje konfiguráciu servera, vstupy, klientov, spotrebu a stav Xray. Neumožňuje aktualizovať softvér panelu.",
         "apiTokenScopeNodeAdmin": "Správca servera",
         "apiTokenScopeNodeAdminDesc": "Zahŕňa synchronizáciu servera a navyše umožňuje spúšťať aktualizácie softvéru panelu.",
+        "apiTokenScopePortal": "Portál predplatného",
+        "apiTokenScopePortalDesc": "Spravuje predplatné klientov, ich zariadenia a priradenie k vstupom pre portál predplatného. Neumožňuje mazať klientov ani meniť vstupy, nastavenia a Xray.",
         "apiTokenEmpty": "Zatiaľ nie sú vytvorené žiadne tokeny. Vytvorte token na overovanie botov alebo vzdialených panelov.",
         "apiTokenDeleteWarning": "Každý, kto používa tento token, okamžite stratí možnosť overenia.",
         "apiTokenCreatedTitle": "Token bol vytvorený",

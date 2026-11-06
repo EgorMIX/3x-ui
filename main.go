@@ -639,7 +639,7 @@ func main() {
 	settingCmd.BoolVar(&getCert, "getCert", false, "Display current certificate settings")
 	settingCmd.BoolVar(&getApiToken, "getApiToken", false, "Print an API token for CLI use, regenerating it and invalidating the previous one; on a panel with no tokens yet it mints one instead")
 	settingCmd.StringVar(&tokenName, "tokenName", "", "Name of the token -getApiToken acts on (default: "+cliFallbackTokenName+", or "+installTokenName+" on a panel with no tokens)")
-	settingCmd.StringVar(&tokenScope, "tokenScope", "", "Scope of the token -getApiToken issues: admin, monitor or node-sync (default: the scope of the token it replaces, or admin for a new one)")
+	settingCmd.StringVar(&tokenScope, "tokenScope", "", "Scope of the token -getApiToken issues: admin, monitor, node-sync, node-admin or portal (default: the scope of the token it replaces, or admin for a new one)")
 	settingCmd.StringVar(&webCertFile, "webCert", "", "Set path to public key file for panel")
 	settingCmd.StringVar(&webKeyFile, "webCertKey", "", "Set path to private key file for panel")
 	settingCmd.StringVar(&tgbottoken, "tgbottoken", "", "Set token for Telegram bot")

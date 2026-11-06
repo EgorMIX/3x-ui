@@ -219,9 +219,51 @@ func (a *ClientController) getByTgId(c *gin.Context) {
 	jsonObj(c, results, nil)
 }
 
+// portalClientFieldError refuses the client fields a portal token must not set:
+// forwardedPorts opens listeners on the host, and reverse names an Xray outbound
+// that is removed along with the client. Sending stored values back is allowed.
+func portalClientFieldError(current *model.ClientRecord, incoming model.Client) error {
+	stored := model.ClientRecord{}
+	if current != nil {
+		stored = *current
+	}
+	if ports := strings.TrimSpace(incoming.ForwardedPorts); ports != "" && ports != strings.TrimSpace(stored.ForwardedPorts) {
+		return errors.New("portal tokens cannot change forwardedPorts")
+	}
+	if incoming.Reverse != nil && incoming.Reverse.Tag != "" {
+		if storedClient := stored.ToClient(); storedClient.Reverse == nil || storedClient.Reverse.Tag != incoming.Reverse.Tag {
+			return errors.New("portal tokens cannot change reverse")
+		}
+	}
+	return nil
+}
+
+// checkPortalClientFields applies portalClientFieldError to portal tokens only.
+// An empty email means a new client, which has no stored values to send back.
+func (a *ClientController) checkPortalClientFields(c *gin.Context, email string, client model.Client) error {
+	if scope, _ := c.Get("api_token_scope"); scope != model.ApiScopePortal {
+		return nil
+	}
+	if email == "" {
+		return portalClientFieldError(nil, client)
+	}
+	current, err := a.clientService.GetRecordByEmail(nil, email)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		return portalClientFieldError(nil, client)
+	}
+	if err != nil {
+		return err
+	}
+	return portalClientFieldError(current, client)
+}
+
 func (a *ClientController) create(c *gin.Context) {
 	var payload service.ClientCreatePayload
 	if err := c.ShouldBindJSON(&payload); err != nil {
+		jsonMsg(c, I18nWeb(c, "somethingWentWrong"), err)
+		return
+	}
+	if err := a.checkPortalClientFields(c, "", payload.Client); err != nil {
 		jsonMsg(c, I18nWeb(c, "somethingWentWrong"), err)
 		return
 	}
@@ -250,6 +292,10 @@ func (a *ClientController) update(c *gin.Context) {
 		LimitHwid int `json:"limitHwid"`
 	}
 	if err := c.ShouldBindJSON(&req); err != nil {
+		jsonMsg(c, I18nWeb(c, "somethingWentWrong"), err)
+		return
+	}
+	if err := a.checkPortalClientFields(c, email, req.Client); err != nil {
 		jsonMsg(c, I18nWeb(c, "somethingWentWrong"), err)
 		return
 	}

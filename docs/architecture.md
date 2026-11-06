@@ -353,6 +353,7 @@ Bearer tokens use the narrowest scope that matches the caller's duties:
 | `monitor`    | Read-only status, version, and metric endpoints.                       |
 | `node-sync`  | Node configuration, inbound/client synchronization, traffic, and Xray. |
 | `node-admin` | All `node-sync` access plus `POST /panel/api/server/updatePanel`.      |
+| `portal`     | Single-client read, create, update, attach, detach, and device access. |
 | `admin`      | Every panel API endpoint; intended for fully trusted automation.       |
 
 `node-admin` remains a node synchronization identity when inbound rules are applied. This

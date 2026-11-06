@@ -29,7 +29,7 @@ interface ApiMsg<T = unknown> {
   obj?: T;
 }
 
-type ApiTokenScope = 'admin' | 'monitor' | 'node-sync' | 'node-admin';
+type ApiTokenScope = 'admin' | 'monitor' | 'node-sync' | 'node-admin' | 'portal';
 
 interface ApiTokenRow {
   id: number;
@@ -256,6 +256,11 @@ export default function SecurityTab({ allSetting, updateSetting, saveSetting }: 
       label: t('pages.settings.security.apiTokenScopeNodeAdmin'),
       description: t('pages.settings.security.apiTokenScopeNodeAdminDesc'),
       color: 'purple',
+    },
+    portal: {
+      label: t('pages.settings.security.apiTokenScopePortal'),
+      description: t('pages.settings.security.apiTokenScopePortalDesc'),
+      color: 'cyan',
     },
   };
 

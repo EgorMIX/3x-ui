@@ -1480,6 +1480,8 @@
         "apiTokenScopeNodeSyncDesc": "ノード設定、インバウンド、クライアント、トラフィック、Xray 状態を同期します。パネルソフトウェアは更新できません。",
         "apiTokenScopeNodeAdmin": "ノード管理者",
         "apiTokenScopeNodeAdminDesc": "ノード同期権限に加え、パネルソフトウェアの更新も開始できます。",
+        "apiTokenScopePortal": "サブスクリプションポータル",
+        "apiTokenScopePortalDesc": "サブスクリプションポータル向けに、クライアントのサブスクリプション、デバイス、インバウンドへの割り当てを管理します。クライアントの削除や、インバウンド、設定、Xray の変更はできません。",
         "apiTokenEmpty": "トークンがまだありません — ボットやリモートパネルを認証するために作成してください。",
         "apiTokenDeleteWarning": "このトークンを使用しているクライアントは直ちに認証できなくなります。",
         "apiTokenCreatedTitle": "トークンを作成しました",
