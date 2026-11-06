@@ -362,3 +362,42 @@ func TestReconcileAll_PreservesClientFields(t *testing.T) {
 		t.Fatalf("binding lost: managed=%v subject=%q", rec.OauthManaged, rec.OauthSubject)
 	}
 }
+
+func TestBindCreatedOauthRecordSkipsAnotherClient(t *testing.T) {
+	setupBulkDB(t)
+	other := &model.ClientRecord{Email: "shared@corp", SubID: "other-sub", OauthSubject: "owner"}
+	if err := database.GetDB().Create(other).Error; err != nil {
+		t.Fatalf("seed client: %v", err)
+	}
+	if err := bindCreatedOauthRecord("shared@corp", "lost-race-sub", "intruder"); err == nil {
+		t.Fatal("a create that lost the race must not report a bound client")
+	}
+	var got model.ClientRecord
+	if err := database.GetDB().First(&got, other.Id).Error; err != nil {
+		t.Fatalf("reload client: %v", err)
+	}
+	if got.OauthSubject != "owner" || got.OauthManaged {
+		t.Fatalf("client changed: subject=%q managed=%v", got.OauthSubject, got.OauthManaged)
+	}
+}
+
+func TestClaimOauthRecordHasOneWinner(t *testing.T) {
+	setupBulkDB(t)
+	rec := &model.ClientRecord{Email: "legacy@corp", SubID: "legacy-sub", OauthManaged: true}
+	if err := database.GetDB().Create(rec).Error; err != nil {
+		t.Fatalf("seed client: %v", err)
+	}
+	if err := claimOauthRecord("legacy@corp", "first"); err != nil {
+		t.Fatalf("first claim: %v", err)
+	}
+	if err := claimOauthRecord("legacy@corp", "second"); err == nil {
+		t.Fatal("a claimed client must not move to a second subject")
+	}
+	var got model.ClientRecord
+	if err := database.GetDB().First(&got, rec.Id).Error; err != nil {
+		t.Fatalf("reload client: %v", err)
+	}
+	if got.OauthSubject != "first" {
+		t.Fatalf("subject = %q, want first", got.OauthSubject)
+	}
+}

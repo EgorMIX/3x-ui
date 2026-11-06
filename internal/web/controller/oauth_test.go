@@ -17,6 +17,7 @@ import (
 	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
 	"github.com/mhsanaei/3x-ui/v3/internal/util/oauth"
 	"github.com/mhsanaei/3x-ui/v3/internal/web/service"
+	"github.com/mhsanaei/3x-ui/v3/internal/web/service/tgbot"
 	"github.com/mhsanaei/3x-ui/v3/internal/web/session"
 )
 
@@ -298,5 +299,13 @@ func TestOAuthCallbackDenies(t *testing.T) {
 				t.Fatalf("Location = %q, want /?oauth_error=1", loc)
 			}
 		})
+	}
+}
+
+func TestOAuthLoginAttemptEscapesUsername(t *testing.T) {
+	id := &oauth.Identity{Username: `<a href="https://example.test">x</a>`}
+	got := oauthLoginAttempt(id, "192.0.2.1", "now", tgbot.LoginFail)
+	if strings.ContainsAny(got.Username, "<>") {
+		t.Fatalf("username reaches HTML notifications unescaped: %s", got.Username)
 	}
 }

@@ -29,6 +29,9 @@ func SetLoginUser(c *gin.Context, user *model.User) error {
 		return nil
 	}
 	s := sessions.Default(c)
+	// A browser that held a self-service session must not keep its client.
+	s.Delete(loginClientSubIDKey)
+	s.Delete(loginRoleKey)
 	s.Set(loginUserKey, user.Id)
 	s.Set(loginEpochKey, user.LoginEpoch)
 	return s.Save()
