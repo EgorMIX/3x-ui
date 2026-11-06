@@ -55,7 +55,7 @@ func (s *OAuthProvisionService) EnsureUserClient(inboundSvc *InboundService, cli
 		needRestart, createErr := clientSvc.Create(inboundSvc, &ClientCreatePayload{Client: client, InboundIds: targets})
 		// A partial failure can leave the record behind; bind it anyway so the
 		// next login finishes the attach instead of refusing it as foreign.
-		bindErr := bindOauthRecord(email, subject)
+		bindErr := bindCreatedOauthRecord(email, client.SubID, subject)
 		if createErr != nil {
 			return "", needRestart, createErr
 		}
@@ -154,19 +154,39 @@ func resolveOauthRecord(subject, email string) (*model.ClientRecord, error) {
 		return nil, common.NewError("oauth: refusing to take over existing client", email)
 	}
 	// Provisioned before subjects were recorded: the first login claims it.
-	if err := bindOauthRecord(email, subject); err != nil {
+	if err := claimOauthRecord(email, subject); err != nil {
 		return nil, err
 	}
 	rec.OauthSubject = subject
 	return rec, nil
 }
 
-// bindOauthRecord adds the client to the OIDC pool and records its owner. The
+// bindCreatedOauthRecord adds the client this login just created to the OIDC pool
+// and records its owner. Matching the freshly minted subId as well as the email
+// keeps a create that lost a race from binding the other caller's client. The
 // reconcile job relies on the flag to restore clients onto re-added inbounds.
-func bindOauthRecord(email, subject string) error {
-	return database.GetDB().Model(&model.ClientRecord{}).
-		Where("email = ?", email).
-		Updates(map[string]any{"oauth_managed": true, "oauth_subject": subject}).Error
+func bindCreatedOauthRecord(email, subID, subject string) error {
+	return requireOauthBind(email, database.GetDB().Model(&model.ClientRecord{}).
+		Where("email = ? AND sub_id = ?", email, subID).
+		Updates(map[string]any{"oauth_managed": true, "oauth_subject": subject}))
+}
+
+// claimOauthRecord gives an unowned SSO client to its first subject. Two logins
+// racing for the same record cannot both win it.
+func claimOauthRecord(email, subject string) error {
+	return requireOauthBind(email, database.GetDB().Model(&model.ClientRecord{}).
+		Where("email = ? AND oauth_managed = ? AND oauth_subject = ?", email, true, "").
+		Update("oauth_subject", subject))
+}
+
+func requireOauthBind(email string, res *gorm.DB) error {
+	if res.Error != nil {
+		return res.Error
+	}
+	if res.RowsAffected == 0 {
+		return common.NewError("oauth: client was not bound:", email)
+	}
+	return nil
 }
 
 // oauthTargetIDs lists the inbounds whose remark is one of remarks.

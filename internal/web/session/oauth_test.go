@@ -8,6 +8,8 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
+
+	"github.com/mhsanaei/3x-ui/v3/internal/database/model"
 )
 
 func newSessionRouter() *gin.Engine {
@@ -94,6 +96,27 @@ func TestSetLoginClientDropsPriorSession(t *testing.T) {
 			t.Fatalf("subId = %q", got)
 		}
 		if got := GetLoginRole(c); got != RoleUser {
+			t.Fatalf("role = %q", got)
+		}
+	})
+	r.ServeHTTP(httptest.NewRecorder(), httptest.NewRequest(http.MethodGet, "/", nil))
+}
+
+func TestSetLoginUserDropsSelfServiceClient(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	r := gin.New()
+	r.Use(sessions.Sessions("3x-ui", cookie.NewStore([]byte("test-secret"))))
+	r.GET("/", func(c *gin.Context) {
+		if err := SetLoginClient(c, "sub-1"); err != nil {
+			t.Fatalf("SetLoginClient: %v", err)
+		}
+		if err := SetLoginUser(c, &model.User{Id: 1}); err != nil {
+			t.Fatalf("SetLoginUser: %v", err)
+		}
+		if got := GetLoginClientSubID(c); got != "" {
+			t.Fatalf("subId = %q, an admin login must not keep it", got)
+		}
+		if got := GetLoginRole(c); got != RoleAdmin {
 			t.Fatalf("role = %q", got)
 		}
 	})

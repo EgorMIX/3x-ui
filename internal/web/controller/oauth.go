@@ -5,6 +5,7 @@ import (
 	"crypto/subtle"
 	"net/http"
 	"strings"
+	"text/template"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -108,14 +109,22 @@ func (a *IndexController) oauthCallback(c *gin.Context) {
 		a.oauthLoginUser(c, identity, cfg, remoteIP, timeStr)
 	default:
 		logger.Warningf("oauth: user %q (groups=%v) is in no permitted group", identity.Username, identity.Groups)
-		a.tgbot.UserLoginNotify(tgbot.LoginAttempt{
-			Username: identity.Username,
-			IP:       remoteIP,
-			Time:     timeStr,
-			Status:   tgbot.LoginFail,
-			Reason:   "oauth: no permitted group",
-		})
+		attempt := oauthLoginAttempt(identity, remoteIP, timeStr, tgbot.LoginFail)
+		attempt.Reason = "oauth: no permitted group"
+		a.tgbot.UserLoginNotify(attempt)
 		a.redirectLoginError(c)
+	}
+}
+
+// oauthLoginAttempt builds the login notification. The username comes from the
+// provider and notifications are rendered as HTML, so it is escaped the same way
+// as the name typed into the password form.
+func oauthLoginAttempt(id *oauth.Identity, remoteIP, timeStr string, status tgbot.LoginStatus) tgbot.LoginAttempt {
+	return tgbot.LoginAttempt{
+		Username: template.HTMLEscapeString(id.Username),
+		IP:       remoteIP,
+		Time:     timeStr,
+		Status:   status,
 	}
 }
 
@@ -146,12 +155,7 @@ func (a *IndexController) oauthLoginAdmin(c *gin.Context, id *oauth.Identity, cf
 		}
 	}
 	logger.Infof("oauth admin %q logged in, IP: %s", id.Username, remoteIP)
-	a.tgbot.UserLoginNotify(tgbot.LoginAttempt{
-		Username: id.Username,
-		IP:       remoteIP,
-		Time:     timeStr,
-		Status:   tgbot.LoginSuccess,
-	})
+	a.tgbot.UserLoginNotify(oauthLoginAttempt(id, remoteIP, timeStr, tgbot.LoginSuccess))
 	c.Header("Cache-Control", "no-store")
 	c.Redirect(http.StatusTemporaryRedirect, c.GetString("base_path")+"panel/")
 }
@@ -229,12 +233,7 @@ func (a *IndexController) oauthLoginUser(c *gin.Context, id *oauth.Identity, cfg
 		return
 	}
 	logger.Infof("oauth user %q logged in, IP: %s", id.Username, remoteIP)
-	a.tgbot.UserLoginNotify(tgbot.LoginAttempt{
-		Username: id.Username,
-		IP:       remoteIP,
-		Time:     timeStr,
-		Status:   tgbot.LoginSuccess,
-	})
+	a.tgbot.UserLoginNotify(oauthLoginAttempt(id, remoteIP, timeStr, tgbot.LoginSuccess))
 	c.Header("Cache-Control", "no-store")
 	c.Redirect(http.StatusTemporaryRedirect, c.GetString("base_path")+"cabinet/")
 }

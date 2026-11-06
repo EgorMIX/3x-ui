@@ -46,9 +46,9 @@ func SetLoginClientSubID(c *gin.Context, subID string) error {
 	return s.Save()
 }
 
-// SetLoginClient opens a self-service session bound to subID. Like SetLoginUser it
-// starts from an empty session: an anonymous session can be planted in a browser,
-// and a leftover admin login must not outlive a switch to the user tier.
+// SetLoginClient opens a self-service session bound to subID. It starts from an
+// empty session: an anonymous session can be planted in a browser, and a leftover
+// admin login must not outlive a switch to the user tier.
 func SetLoginClient(c *gin.Context, subID string) error {
 	s := sessions.Default(c)
 	s.Clear()
