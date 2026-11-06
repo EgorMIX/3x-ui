@@ -2,10 +2,12 @@ package controller
 
 import (
 	"net/http"
+	"sync"
 	"text/template"
 	"time"
 
 	"github.com/mhsanaei/3x-ui/v3/internal/logger"
+	"github.com/mhsanaei/3x-ui/v3/internal/util/oauth"
 	"github.com/mhsanaei/3x-ui/v3/internal/web/entity"
 	"github.com/mhsanaei/3x-ui/v3/internal/web/middleware"
 	"github.com/mhsanaei/3x-ui/v3/internal/web/service"
@@ -30,7 +32,12 @@ type IndexController struct {
 	settingService service.SettingService
 	userService    panel.UserService
 	panelService   panel.PanelService
+	xrayService    service.XrayService
 	tgbot          tgbot.Tgbot
+
+	oauthMu       sync.Mutex
+	oauthProvider *oauth.Provider
+	oauthSig      string
 }
 
 // NewIndexController creates a new IndexController and initializes its routes.
@@ -50,6 +57,17 @@ func (a *IndexController) initRouter(g *gin.RouterGroup) {
 	g.POST("/login", middleware.CSRFMiddleware(getRemoteIp), a.login)
 	g.POST("/logout", middleware.CSRFMiddleware(getRemoteIp), a.logout)
 	g.POST("/getTwoFactorEnable", middleware.CSRFMiddleware(getRemoteIp), a.getTwoFactorEnable)
+	g.GET("/getOAuthEnable", a.getOAuthEnable)
+
+	// OIDC login is a browser redirect flow, not an AJAX/CSRF surface: the
+	// callback returns via a top-level GET and is guarded by the state param.
+	g.GET("/oauth/login", a.oauthLogin)
+	g.GET("/oauth/callback", a.oauthCallback)
+
+	// Self-service cabinet for the user tier. The page shell is public; its
+	// /cabinet/data feed is gated by the session's client subId.
+	g.GET("/cabinet/", a.cabinet)
+	g.GET("/cabinet/data", a.cabinetData)
 }
 
 // sponsors is public so the login page can render its slot; failures stay silent.
@@ -79,6 +97,11 @@ func (a *IndexController) index(c *gin.Context) {
 	if session.IsLogin(c) {
 		c.Header("Cache-Control", "no-store")
 		c.Redirect(http.StatusTemporaryRedirect, c.GetString("base_path")+"panel/")
+		return
+	}
+	if session.GetLoginClientSubID(c) != "" {
+		c.Header("Cache-Control", "no-store")
+		c.Redirect(http.StatusTemporaryRedirect, c.GetString("base_path")+"cabinet/")
 		return
 	}
 	serveDistPage(c, "login.html")

@@ -148,13 +148,19 @@ export default function GeneralTab({ allSetting, updateSetting }: GeneralTabProp
   }, [allSetting.ldapInboundTags]);
 
   function setLdapInboundTagList(list: string[]) {
-    updateSetting({ ldapInboundTags: Array.isArray(list) ? list.join(',') : '' });
+    updateSetting({
+      ldapInboundTags: Array.isArray(list) ? list.join(',') : '',
+    });
   }
 
   function onLangChange(value: string) {
     setLang(value);
     LanguageManager.setLanguage(value);
   }
+
+  const oauthLocked = (key: string) => !!allSetting.oauthEnvLocked?.[key];
+  const oauthLockHint = (key: string) =>
+    oauthLocked(key) ? t('pages.settings.oauth.envManaged') : undefined;
 
   const langOptions = useMemo(
     () =>
@@ -308,7 +314,9 @@ export default function GeneralTab({ allSetting, updateSetting }: GeneralTabProp
                   placeholder={t('pages.settings.panelOutboundPh')}
                   options={outboundOptions}
                   onChange={(v) =>
-                    updateSetting({ panelOutbound: (v as string | undefined) || '' })
+                    updateSetting({
+                      panelOutbound: (v as string | undefined) || '',
+                    })
                   }
                 />
               </SettingListItem>
@@ -486,8 +494,14 @@ export default function GeneralTab({ allSetting, updateSetting }: GeneralTabProp
                   onChange={(v) => updateSetting({ datepicker: v as 'gregorian' | 'jalalian' })}
                   style={{ width: '100%' }}
                   options={[
-                    { value: 'gregorian', label: t('pages.settings.calendarGregorian') },
-                    { value: 'jalalian', label: t('pages.settings.calendarJalalian') },
+                    {
+                      value: 'gregorian',
+                      label: t('pages.settings.calendarGregorian'),
+                    },
+                    {
+                      value: 'jalalian',
+                      label: t('pages.settings.calendarJalalian'),
+                    },
                   ]}
                 />
               </SettingListItem>
@@ -708,6 +722,214 @@ export default function GeneralTab({ allSetting, updateSetting }: GeneralTabProp
                   min={0}
                   style={{ width: '100%' }}
                   onChange={onNumber((v) => updateSetting({ ldapDefaultLimitIP: v }))}
+                />
+              </SettingListItem>
+            </>
+          ),
+        },
+        {
+          key: '7',
+          label: catTabLabel(<SafetyCertificateOutlined aria-hidden />, 'OIDC', isMobile),
+          children: (
+            <>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.enable')}
+                description={oauthLockHint('oauthEnable')}
+              >
+                <Switch
+                  checked={allSetting.oauthEnable}
+                  disabled={oauthLocked('oauthEnable')}
+                  onChange={(v) => updateSetting({ oauthEnable: v })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.issuer')}
+                description={oauthLockHint('oauthIssuer') ?? t('pages.settings.oauth.issuerDesc')}
+              >
+                <Input
+                  value={allSetting.oauthIssuer}
+                  disabled={oauthLocked('oauthIssuer')}
+                  onChange={(e) => updateSetting({ oauthIssuer: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.clientId')}
+                description={oauthLockHint('oauthClientId')}
+              >
+                <Input
+                  value={allSetting.oauthClientId}
+                  disabled={oauthLocked('oauthClientId')}
+                  onChange={(e) => updateSetting({ oauthClientId: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.clientSecret')}
+                description={
+                  oauthLocked('oauthClientSecret')
+                    ? t('pages.settings.oauth.envManaged')
+                    : allSetting.hasOauthClientSecret && !allSetting.clearOauthClientSecret
+                      ? t('pages.settings.oauth.secretConfigured')
+                      : t('pages.settings.oauth.secretUnconfigured')
+                }
+              >
+                {oauthLocked('oauthClientSecret') ? (
+                  <Input.Password
+                    value=""
+                    disabled
+                    placeholder={t('pages.settings.oauth.envManaged')}
+                  />
+                ) : (
+                  <SecretInput
+                    value={allSetting.oauthClientSecret}
+                    configured={allSetting.hasOauthClientSecret}
+                    clearArmed={allSetting.clearOauthClientSecret}
+                    placeholder={t('pages.settings.oauth.secretPlaceholder')}
+                    onChange={(v) => updateSetting({ oauthClientSecret: v })}
+                    onClearArmedChange={(armed) => updateSetting({ clearOauthClientSecret: armed })}
+                  />
+                )}
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.redirectUrl')}
+                description={
+                  oauthLockHint('oauthRedirectUrl') ?? t('pages.settings.oauth.redirectUrlDesc')
+                }
+              >
+                <Input
+                  value={allSetting.oauthRedirectUrl}
+                  disabled={oauthLocked('oauthRedirectUrl')}
+                  onChange={(e) => updateSetting({ oauthRedirectUrl: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.adminGroup')}
+                description={
+                  oauthLockHint('oauthAdminGroup') ?? t('pages.settings.oauth.adminGroupDesc')
+                }
+              >
+                <Input
+                  value={allSetting.oauthAdminGroup}
+                  disabled={oauthLocked('oauthAdminGroup')}
+                  onChange={(e) => updateSetting({ oauthAdminGroup: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.userGroup')}
+                description={
+                  oauthLockHint('oauthUserGroup') ?? t('pages.settings.oauth.userGroupDesc')
+                }
+              >
+                <Input
+                  value={allSetting.oauthUserGroup}
+                  disabled={oauthLocked('oauthUserGroup')}
+                  onChange={(e) => updateSetting({ oauthUserGroup: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.userInboundRemark')}
+                description={
+                  oauthLockHint('oauthUserInboundRemark') ??
+                  t('pages.settings.oauth.userInboundRemarkDesc')
+                }
+              >
+                <Input
+                  value={allSetting.oauthUserInboundRemark}
+                  disabled={oauthLocked('oauthUserInboundRemark')}
+                  onChange={(e) => updateSetting({ oauthUserInboundRemark: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.userFlow')}
+                description={
+                  oauthLockHint('oauthUserFlow') ?? t('pages.settings.oauth.userFlowDesc')
+                }
+              >
+                <Input
+                  value={allSetting.oauthUserFlow}
+                  disabled={oauthLocked('oauthUserFlow')}
+                  placeholder="xtls-rprx-vision"
+                  onChange={(e) => updateSetting({ oauthUserFlow: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.userTotalGb')}
+                description={oauthLockHint('oauthUserTotalGB')}
+              >
+                <InputNumber
+                  value={allSetting.oauthUserTotalGB}
+                  min={0}
+                  style={{ width: '100%' }}
+                  disabled={oauthLocked('oauthUserTotalGB')}
+                  onChange={onNumber((v) => updateSetting({ oauthUserTotalGB: v }))}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.userExpiryDays')}
+                description={oauthLockHint('oauthUserExpiryDays')}
+              >
+                <InputNumber
+                  value={allSetting.oauthUserExpiryDays}
+                  min={0}
+                  style={{ width: '100%' }}
+                  disabled={oauthLocked('oauthUserExpiryDays')}
+                  onChange={onNumber((v) => updateSetting({ oauthUserExpiryDays: v }))}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.userLimitIp')}
+                description={oauthLockHint('oauthUserLimitIP')}
+              >
+                <InputNumber
+                  value={allSetting.oauthUserLimitIP}
+                  min={0}
+                  style={{ width: '100%' }}
+                  disabled={oauthLocked('oauthUserLimitIP')}
+                  onChange={onNumber((v) => updateSetting({ oauthUserLimitIP: v }))}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.scopes')}
+                description={oauthLockHint('oauthScopes')}
+              >
+                <Input
+                  value={allSetting.oauthScopes}
+                  disabled={oauthLocked('oauthScopes')}
+                  onChange={(e) => updateSetting({ oauthScopes: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.groupsClaim')}
+                description={oauthLockHint('oauthGroupsClaim')}
+              >
+                <Input
+                  value={allSetting.oauthGroupsClaim}
+                  disabled={oauthLocked('oauthGroupsClaim')}
+                  onChange={(e) => updateSetting({ oauthGroupsClaim: e.target.value })}
+                />
+              </SettingListItem>
+              <SettingListItem
+                paddings="small"
+                title={t('pages.settings.oauth.usernameClaim')}
+                description={oauthLockHint('oauthUsernameClaim')}
+              >
+                <Input
+                  value={allSetting.oauthUsernameClaim}
+                  disabled={oauthLocked('oauthUsernameClaim')}
+                  onChange={(e) => updateSetting({ oauthUsernameClaim: e.target.value })}
                 />
               </SettingListItem>
             </>

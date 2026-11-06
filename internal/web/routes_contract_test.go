@@ -35,6 +35,10 @@ var contractExtraRoutes = map[string]bool{
 	"GET /csrf-token":          true,
 	"GET /sponsors":            true,
 	"POST /getTwoFactorEnable": true,
+	"GET /getOAuthEnable":      true,
+	"GET /oauth/login":         true,
+	"GET /oauth/callback":      true,
+	"GET /cabinet/data":        true,
 	"GET /ws":                  true,
 }
 

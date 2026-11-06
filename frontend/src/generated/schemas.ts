@@ -131,6 +131,54 @@ export const SCHEMAS: Record<string, unknown> = {
         "minimum": 1,
         "type": "integer"
       },
+      "oauthAdminGroup": {
+        "type": "string"
+      },
+      "oauthClientId": {
+        "type": "string"
+      },
+      "oauthClientSecret": {
+        "type": "string"
+      },
+      "oauthEnable": {
+        "type": "boolean"
+      },
+      "oauthGroupsClaim": {
+        "type": "string"
+      },
+      "oauthIssuer": {
+        "type": "string"
+      },
+      "oauthRedirectUrl": {
+        "type": "string"
+      },
+      "oauthScopes": {
+        "type": "string"
+      },
+      "oauthUserExpiryDays": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "oauthUserFlow": {
+        "type": "string"
+      },
+      "oauthUserGroup": {
+        "type": "string"
+      },
+      "oauthUserInboundRemark": {
+        "type": "string"
+      },
+      "oauthUserLimitIP": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "oauthUserTotalGB": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "oauthUsernameClaim": {
+        "type": "string"
+      },
       "outboundDownThreshold": {
         "maximum": 100,
         "minimum": 1,
@@ -623,6 +671,21 @@ export const SCHEMAS: Record<string, unknown> = {
       "ldapUserFilter",
       "ldapVlessField",
       "nodeDownThreshold",
+      "oauthAdminGroup",
+      "oauthClientId",
+      "oauthClientSecret",
+      "oauthEnable",
+      "oauthGroupsClaim",
+      "oauthIssuer",
+      "oauthRedirectUrl",
+      "oauthScopes",
+      "oauthUserExpiryDays",
+      "oauthUserFlow",
+      "oauthUserGroup",
+      "oauthUserInboundRemark",
+      "oauthUserLimitIP",
+      "oauthUserTotalGB",
+      "oauthUsernameClaim",
       "outboundDownThreshold",
       "pageSize",
       "panelOutbound",
@@ -834,6 +897,9 @@ export const SCHEMAS: Record<string, unknown> = {
       "hasNordSecret": {
         "type": "boolean"
       },
+      "hasOauthClientSecret": {
+        "type": "boolean"
+      },
       "hasSmtpPassword": {
         "type": "boolean"
       },
@@ -921,6 +987,61 @@ export const SCHEMAS: Record<string, unknown> = {
         "maximum": 100,
         "minimum": 1,
         "type": "integer"
+      },
+      "oauthAdminGroup": {
+        "type": "string"
+      },
+      "oauthClientId": {
+        "type": "string"
+      },
+      "oauthClientSecret": {
+        "type": "string"
+      },
+      "oauthEnable": {
+        "type": "boolean"
+      },
+      "oauthEnvLocked": {
+        "additionalProperties": {
+          "type": "boolean"
+        },
+        "description": "OauthEnvLocked marks OAuth settings whose value comes from a XUI_OAUTH_*\nenv var; the UI shows them read-only. Keyed by the settings json key.",
+        "type": "object"
+      },
+      "oauthGroupsClaim": {
+        "type": "string"
+      },
+      "oauthIssuer": {
+        "type": "string"
+      },
+      "oauthRedirectUrl": {
+        "type": "string"
+      },
+      "oauthScopes": {
+        "type": "string"
+      },
+      "oauthUserExpiryDays": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "oauthUserFlow": {
+        "type": "string"
+      },
+      "oauthUserGroup": {
+        "type": "string"
+      },
+      "oauthUserInboundRemark": {
+        "type": "string"
+      },
+      "oauthUserLimitIP": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "oauthUserTotalGB": {
+        "minimum": 0,
+        "type": "integer"
+      },
+      "oauthUsernameClaim": {
+        "type": "string"
       },
       "outboundDownThreshold": {
         "maximum": 100,
@@ -1395,6 +1516,7 @@ export const SCHEMAS: Record<string, unknown> = {
       "hasDiscordBotToken",
       "hasLdapPassword",
       "hasNordSecret",
+      "hasOauthClientSecret",
       "hasSmtpPassword",
       "hasTgBotToken",
       "hasTwoFactorToken",
@@ -1422,6 +1544,22 @@ export const SCHEMAS: Record<string, unknown> = {
       "ldapUserFilter",
       "ldapVlessField",
       "nodeDownThreshold",
+      "oauthAdminGroup",
+      "oauthClientId",
+      "oauthClientSecret",
+      "oauthEnable",
+      "oauthEnvLocked",
+      "oauthGroupsClaim",
+      "oauthIssuer",
+      "oauthRedirectUrl",
+      "oauthScopes",
+      "oauthUserExpiryDays",
+      "oauthUserFlow",
+      "oauthUserGroup",
+      "oauthUserInboundRemark",
+      "oauthUserLimitIP",
+      "oauthUserTotalGB",
+      "oauthUsernameClaim",
       "outboundDownThreshold",
       "pageSize",
       "panelOutbound",

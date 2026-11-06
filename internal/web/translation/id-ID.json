@@ -138,6 +138,10 @@
         "emptyPassword": "Kata Sandi diperlukan",
         "wrongUsernameOrPassword": "Username, kata sandi, atau kode dua faktor tidak valid.",
         "successLogin": "Anda telah berhasil masuk ke akun Anda."
+      },
+      "oauth": {
+        "signIn": "Sign in with SSO",
+        "failed": "SSO sign-in failed. Please try again."
       }
     },
     "index": {
@@ -1839,7 +1843,34 @@
       "subHostSortMode": "Urutan node langganan",
       "subHostSortInbound": "Urutan inbound (bawaan)",
       "subHostSortHosts": "Urutan host",
-      "subHostSortModeDesc": "Mengikuti urutan di halaman Host untuk semua inbound. Ini menentukan urutan keluaran server; aplikasi klien dapat menerapkan urutan sendiri."
+      "subHostSortModeDesc": "Mengikuti urutan di halaman Host untuk semua inbound. Ini menentukan urutan keluaran server; aplikasi klien dapat menerapkan urutan sendiri.",
+      "oauth": {
+        "enable": "Enable OIDC login",
+        "issuer": "Issuer URL",
+        "issuerDesc": "OIDC provider discovery URL. Set it and the Client ID to enable SSO.",
+        "clientId": "Client ID",
+        "clientSecret": "Client secret",
+        "secretConfigured": "A client secret is stored. Leave blank to keep it.",
+        "secretUnconfigured": "No client secret stored.",
+        "secretPlaceholder": "unchanged",
+        "redirectUrl": "Redirect URL",
+        "redirectUrlDesc": "Callback URL registered at the provider. Leave blank to derive it from the request.",
+        "adminGroup": "Admin group",
+        "adminGroupDesc": "Members get full admin-panel access.",
+        "userGroup": "User group(s)",
+        "userGroupDesc": "Members get a self-service cabinet. Comma-separated.",
+        "userInboundRemark": "User inbound remark(s)",
+        "userInboundRemarkDesc": "Inbound remark(s) a user client is auto-provisioned into. Comma-separated.",
+        "userTotalGb": "User traffic limit (GB)",
+        "userExpiryDays": "User expiry (days)",
+        "userLimitIp": "User device/IP limit",
+        "scopes": "Scopes",
+        "groupsClaim": "Groups claim",
+        "usernameClaim": "Username claim",
+        "envManaged": "Set by an environment variable (read-only).",
+        "userFlow": "User flow",
+        "userFlowDesc": "Flow applied to provisioned clients (e.g. xtls-rprx-vision). Leave blank for none."
+      }
     },
     "xray": {
       "save": "Simpan",
@@ -2502,6 +2533,10 @@
       "visit": "Kunjungi",
       "yourBrand": "Merek Anda di sini",
       "yourBrandText": "Tampilkan perusahaan Anda kepada ribuan admin server yang membuka 3X-UI setiap hari."
+    },
+    "cabinet": {
+      "title": "My Connection",
+      "empty": "No connection is available yet."
     }
   },
   "tgbot": {

@@ -35,11 +35,12 @@ type updateUserForm struct {
 // "unchanged", so clearing needs its own signal — see #5724).
 type updateSettingForm struct {
 	entity.AllSetting
-	TwoFactorCode        string `json:"twoFactorCode" form:"twoFactorCode"`
-	ClearTgBotToken      bool   `json:"clearTgBotToken" form:"clearTgBotToken"`
-	ClearLdapPassword    bool   `json:"clearLdapPassword" form:"clearLdapPassword"`
-	ClearSmtpPassword    bool   `json:"clearSmtpPassword" form:"clearSmtpPassword"`
-	ClearDiscordBotToken bool   `json:"clearDiscordBotToken" form:"clearDiscordBotToken"`
+	TwoFactorCode          string `json:"twoFactorCode" form:"twoFactorCode"`
+	ClearTgBotToken        bool   `json:"clearTgBotToken" form:"clearTgBotToken"`
+	ClearLdapPassword      bool   `json:"clearLdapPassword" form:"clearLdapPassword"`
+	ClearSmtpPassword      bool   `json:"clearSmtpPassword" form:"clearSmtpPassword"`
+	ClearDiscordBotToken   bool   `json:"clearDiscordBotToken" form:"clearDiscordBotToken"`
+	ClearOauthClientSecret bool   `json:"clearOauthClientSecret" form:"clearOauthClientSecret"`
 }
 
 type validateRegexForm struct {
@@ -152,10 +153,11 @@ func (a *SettingController) updateSetting(c *gin.Context) {
 		}
 	}
 	err := a.settingService.UpdateAllSetting(allSetting, service.SecretClears{
-		TgBotToken:      form.ClearTgBotToken,
-		LdapPassword:    form.ClearLdapPassword,
-		SmtpPassword:    form.ClearSmtpPassword,
-		DiscordBotToken: form.ClearDiscordBotToken,
+		TgBotToken:        form.ClearTgBotToken,
+		LdapPassword:      form.ClearLdapPassword,
+		SmtpPassword:      form.ClearSmtpPassword,
+		DiscordBotToken:   form.ClearDiscordBotToken,
+		OauthClientSecret: form.ClearOauthClientSecret,
 	})
 	if err == nil && twoFactorErr == nil && !oldTwoFactor && allSetting.TwoFactorEnable {
 		if bumpErr := a.userService.BumpLoginEpoch(); bumpErr != nil {

@@ -1016,6 +1016,12 @@ type ClientRecord struct {
 	// Owned solely by the node-snapshot sweep, which soft-orphans instead of
 	// deleting; orphans from any other cause stay at zero and are never reaped.
 	SyncOrphanedAt int64 `json:"-" gorm:"column:sync_orphaned_at;default:0"`
+	// Set for OIDC-provisioned clients so the OAuth reconcile job can re-attach
+	// them to inbounds even after every matching inbound was deleted.
+	OauthManaged bool `json:"-" gorm:"column:oauth_managed;default:false;index:idx_client_record_oauth"`
+	// The immutable OIDC subject that owns this client. Unlike the email it cannot
+	// be edited on the provider, so it is what a login is matched against.
+	OauthSubject string `json:"-" gorm:"column:oauth_subject;default:'';index:idx_client_record_oauth_subject"`
 }
 
 func (ClientRecord) TableName() string { return "clients" }

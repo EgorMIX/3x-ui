@@ -138,6 +138,10 @@
         "emptyPassword": "请输入密码",
         "wrongUsernameOrPassword": "用户名、密码或双重验证码无效。",
         "successLogin": "您已成功登录您的账户。"
+      },
+      "oauth": {
+        "signIn": "Sign in with SSO",
+        "failed": "SSO sign-in failed. Please try again."
       }
     },
     "index": {
@@ -1839,7 +1843,34 @@
       "subHostSortMode": "订阅节点排序",
       "subHostSortInbound": "入站顺序（默认）",
       "subHostSortHosts": "主机顺序",
-      "subHostSortModeDesc": "跨入站使用主机页面中的排序。此设置决定服务器输出顺序；客户端应用仍可能自行排序。"
+      "subHostSortModeDesc": "跨入站使用主机页面中的排序。此设置决定服务器输出顺序；客户端应用仍可能自行排序。",
+      "oauth": {
+        "enable": "Enable OIDC login",
+        "issuer": "Issuer URL",
+        "issuerDesc": "OIDC provider discovery URL. Set it and the Client ID to enable SSO.",
+        "clientId": "Client ID",
+        "clientSecret": "Client secret",
+        "secretConfigured": "A client secret is stored. Leave blank to keep it.",
+        "secretUnconfigured": "No client secret stored.",
+        "secretPlaceholder": "unchanged",
+        "redirectUrl": "Redirect URL",
+        "redirectUrlDesc": "Callback URL registered at the provider. Leave blank to derive it from the request.",
+        "adminGroup": "Admin group",
+        "adminGroupDesc": "Members get full admin-panel access.",
+        "userGroup": "User group(s)",
+        "userGroupDesc": "Members get a self-service cabinet. Comma-separated.",
+        "userInboundRemark": "User inbound remark(s)",
+        "userInboundRemarkDesc": "Inbound remark(s) a user client is auto-provisioned into. Comma-separated.",
+        "userTotalGb": "User traffic limit (GB)",
+        "userExpiryDays": "User expiry (days)",
+        "userLimitIp": "User device/IP limit",
+        "scopes": "Scopes",
+        "groupsClaim": "Groups claim",
+        "usernameClaim": "Username claim",
+        "envManaged": "Set by an environment variable (read-only).",
+        "userFlow": "User flow",
+        "userFlowDesc": "Flow applied to provisioned clients (e.g. xtls-rprx-vision). Leave blank for none."
+      }
     },
     "xray": {
       "importRules": "导入规则",
@@ -2502,6 +2533,10 @@
       "visit": "访问",
       "yourBrand": "您的品牌展示位",
       "yourBrandText": "让每天打开 3X-UI 的数千名服务器管理员看到您的公司。"
+    },
+    "cabinet": {
+      "title": "My Connection",
+      "empty": "No connection is available yet."
     }
   },
   "tgbot": {

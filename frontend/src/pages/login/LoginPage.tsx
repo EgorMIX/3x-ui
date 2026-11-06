@@ -15,6 +15,7 @@ import {
 import {
   KeyOutlined,
   LockOutlined,
+  LoginOutlined,
   MoonFilled,
   MoonOutlined,
   SunOutlined,
@@ -49,6 +50,7 @@ export default function LoginPage() {
   const [fetched, setFetched] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [twoFactorEnable, setTwoFactorEnable] = useState(false);
+  const [oauthEnable, setOauthEnable] = useState(false);
   const [headlineIndex, setHeadlineIndex] = useState(0);
   const methods = useForm<LoginForm>({
     defaultValues: { username: '', password: '', twoFactorCode: '' },
@@ -67,14 +69,29 @@ export default function LoginPage() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const msg = await HttpUtil.post('/getTwoFactorEnable');
+      const [twoFactor, oauth] = await Promise.all([
+        HttpUtil.post('/getTwoFactorEnable'),
+        HttpUtil.get('/getOAuthEnable', undefined, { silent: true }),
+      ]);
       if (cancelled) return;
-      if (msg.success) setTwoFactorEnable(!!msg.obj);
+      if (twoFactor.success) setTwoFactorEnable(!!twoFactor.obj);
+      if (oauth.success) setOauthEnable(!!oauth.obj);
       setFetched(true);
     })();
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('oauth_error')) {
+      messageApi.error(t('pages.login.oauth.failed'));
+    }
+  }, [messageApi, t]);
+
+  const onOauthSignIn = useCallback(() => {
+    window.location.href = basePath + 'oauth/login';
   }, []);
 
   const onSubmit = useCallback(async (values: LoginForm) => {
@@ -114,17 +131,21 @@ export default function LoginPage() {
 
   const langMenuItems = useMemo(
     () =>
-      (LanguageManager.supportedLanguages as { value: string; name: string; icon: string }[]).map(
-        (l) => ({
-          key: l.value,
-          label: (
-            <Space size={8}>
-              <span aria-hidden="true">{l.icon}</span>
-              <span>{l.name}</span>
-            </Space>
-          ),
-        }),
-      ),
+      (
+        LanguageManager.supportedLanguages as {
+          value: string;
+          name: string;
+          icon: string;
+        }[]
+      ).map((l) => ({
+        key: l.value,
+        label: (
+          <Space size={8}>
+            <span aria-hidden="true">{l.icon}</span>
+            <span>{l.name}</span>
+          </Space>
+        ),
+      })),
     [],
   );
 
@@ -202,7 +223,9 @@ export default function LoginPage() {
                     <FormField
                       name="username"
                       label={t('username')}
-                      rules={{ validate: rhfZodValidate(LoginFormSchema.shape.username) }}
+                      rules={{
+                        validate: rhfZodValidate(LoginFormSchema.shape.username),
+                      }}
                     >
                       <Input
                         prefix={<UserOutlined aria-hidden />}
@@ -216,7 +239,9 @@ export default function LoginPage() {
                     <FormField
                       name="password"
                       label={t('password')}
-                      rules={{ validate: rhfZodValidate(LoginFormSchema.shape.password) }}
+                      rules={{
+                        validate: rhfZodValidate(LoginFormSchema.shape.password),
+                      }}
                     >
                       <Input.Password
                         prefix={<LockOutlined aria-hidden />}
@@ -230,7 +255,9 @@ export default function LoginPage() {
                       <FormField
                         name="twoFactorCode"
                         label={t('twoFactorCode')}
-                        rules={{ validate: rhfZodValidate(TwoFactorCodeSchema) }}
+                        rules={{
+                          validate: rhfZodValidate(TwoFactorCodeSchema),
+                        }}
                       >
                         <Input
                           prefix={<KeyOutlined aria-hidden />}
@@ -252,6 +279,19 @@ export default function LoginPage() {
                         {t('login')}
                       </Button>
                     </Form.Item>
+
+                    {oauthEnable && (
+                      <Form.Item className="oauth-row">
+                        <Button
+                          icon={<LoginOutlined aria-hidden />}
+                          size="large"
+                          block
+                          onClick={onOauthSignIn}
+                        >
+                          {t('pages.login.oauth.signIn')}
+                        </Button>
+                      </Form.Item>
+                    )}
                   </Form>
                 </FormProvider>
                 <SponsorSlot slot="login" variant="compact" className="login-sponsor" />

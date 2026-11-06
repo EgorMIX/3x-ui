@@ -138,6 +138,10 @@
         "emptyPassword": "Потрібен пароль",
         "wrongUsernameOrPassword": "Невірне ім’я користувача, пароль або код двофакторної аутентифікації.",
         "successLogin": "Ви успішно увійшли до свого облікового запису."
+      },
+      "oauth": {
+        "signIn": "Sign in with SSO",
+        "failed": "SSO sign-in failed. Please try again."
       }
     },
     "index": {
@@ -1839,7 +1843,34 @@
       "subHostSortMode": "Порядок вузлів підписки",
       "subHostSortInbound": "Порядок вхідних підключень (типово)",
       "subHostSortHosts": "Порядок хостів",
-      "subHostSortModeDesc": "Використовується порядок зі сторінки хостів для всіх вхідних підключень. Це визначає порядок видачі сервером; клієнтські застосунки можуть сортувати вузли самостійно."
+      "subHostSortModeDesc": "Використовується порядок зі сторінки хостів для всіх вхідних підключень. Це визначає порядок видачі сервером; клієнтські застосунки можуть сортувати вузли самостійно.",
+      "oauth": {
+        "enable": "Enable OIDC login",
+        "issuer": "Issuer URL",
+        "issuerDesc": "OIDC provider discovery URL. Set it and the Client ID to enable SSO.",
+        "clientId": "Client ID",
+        "clientSecret": "Client secret",
+        "secretConfigured": "A client secret is stored. Leave blank to keep it.",
+        "secretUnconfigured": "No client secret stored.",
+        "secretPlaceholder": "unchanged",
+        "redirectUrl": "Redirect URL",
+        "redirectUrlDesc": "Callback URL registered at the provider. Leave blank to derive it from the request.",
+        "adminGroup": "Admin group",
+        "adminGroupDesc": "Members get full admin-panel access.",
+        "userGroup": "User group(s)",
+        "userGroupDesc": "Members get a self-service cabinet. Comma-separated.",
+        "userInboundRemark": "User inbound remark(s)",
+        "userInboundRemarkDesc": "Inbound remark(s) a user client is auto-provisioned into. Comma-separated.",
+        "userTotalGb": "User traffic limit (GB)",
+        "userExpiryDays": "User expiry (days)",
+        "userLimitIp": "User device/IP limit",
+        "scopes": "Scopes",
+        "groupsClaim": "Groups claim",
+        "usernameClaim": "Username claim",
+        "envManaged": "Set by an environment variable (read-only).",
+        "userFlow": "User flow",
+        "userFlowDesc": "Flow applied to provisioned clients (e.g. xtls-rprx-vision). Leave blank for none."
+      }
     },
     "xray": {
       "save": "Зберегти",
@@ -2502,6 +2533,10 @@
       "visit": "Перейти",
       "yourBrand": "Тут може бути ваш бренд",
       "yourBrandText": "Покажіть свою компанію тисячам адміністраторів серверів, які щодня відкривають 3X-UI."
+    },
+    "cabinet": {
+      "title": "My Connection",
+      "empty": "No connection is available yet."
     }
   },
   "tgbot": {

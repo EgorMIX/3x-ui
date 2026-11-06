@@ -138,6 +138,10 @@
         "emptyPassword": "パスワードを入力してください",
         "wrongUsernameOrPassword": "ユーザー名、パスワード、または二段階認証コードが無効です。",
         "successLogin": "アカウントに正常にログインしました。"
+      },
+      "oauth": {
+        "signIn": "Sign in with SSO",
+        "failed": "SSO sign-in failed. Please try again."
       }
     },
     "index": {
@@ -1839,7 +1843,34 @@
       "subHostSortMode": "サブスクリプションのノード順序",
       "subHostSortInbound": "インバウンド順（既定）",
       "subHostSortHosts": "ホスト順",
-      "subHostSortModeDesc": "異なるインバウンド間でもホストページの順序に従います。サーバーが出力する順序を指定しますが、クライアントアプリが独自に並べ替える場合があります。"
+      "subHostSortModeDesc": "異なるインバウンド間でもホストページの順序に従います。サーバーが出力する順序を指定しますが、クライアントアプリが独自に並べ替える場合があります。",
+      "oauth": {
+        "enable": "Enable OIDC login",
+        "issuer": "Issuer URL",
+        "issuerDesc": "OIDC provider discovery URL. Set it and the Client ID to enable SSO.",
+        "clientId": "Client ID",
+        "clientSecret": "Client secret",
+        "secretConfigured": "A client secret is stored. Leave blank to keep it.",
+        "secretUnconfigured": "No client secret stored.",
+        "secretPlaceholder": "unchanged",
+        "redirectUrl": "Redirect URL",
+        "redirectUrlDesc": "Callback URL registered at the provider. Leave blank to derive it from the request.",
+        "adminGroup": "Admin group",
+        "adminGroupDesc": "Members get full admin-panel access.",
+        "userGroup": "User group(s)",
+        "userGroupDesc": "Members get a self-service cabinet. Comma-separated.",
+        "userInboundRemark": "User inbound remark(s)",
+        "userInboundRemarkDesc": "Inbound remark(s) a user client is auto-provisioned into. Comma-separated.",
+        "userTotalGb": "User traffic limit (GB)",
+        "userExpiryDays": "User expiry (days)",
+        "userLimitIp": "User device/IP limit",
+        "scopes": "Scopes",
+        "groupsClaim": "Groups claim",
+        "usernameClaim": "Username claim",
+        "envManaged": "Set by an environment variable (read-only).",
+        "userFlow": "User flow",
+        "userFlowDesc": "Flow applied to provisioned clients (e.g. xtls-rprx-vision). Leave blank for none."
+      }
     },
     "xray": {
       "importRules": "ルールをインポート",
@@ -2502,6 +2533,10 @@
       "visit": "訪問",
       "yourBrand": "ここにあなたのブランドを",
       "yourBrandText": "毎日 3X-UI を開く何千人ものサーバー管理者に御社をアピールできます。"
+    },
+    "cabinet": {
+      "title": "My Connection",
+      "empty": "No connection is available yet."
     }
   },
   "tgbot": {

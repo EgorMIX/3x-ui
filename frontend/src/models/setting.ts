@@ -161,6 +161,23 @@ export class AllSetting {
   ldapDefaultTotalGB = 0;
   ldapDefaultExpiryDays = 0;
   ldapDefaultLimitIP = 0;
+
+  oauthEnable = false;
+  oauthIssuer = '';
+  oauthClientId = '';
+  oauthClientSecret = '';
+  oauthRedirectUrl = '';
+  oauthScopes = 'openid,profile,email,groups';
+  oauthGroupsClaim = 'groups';
+  oauthUsernameClaim = 'email';
+  oauthAdminGroup = '';
+  oauthUserGroup = '';
+  oauthUserInboundRemark = '';
+  oauthUserFlow = '';
+  oauthUserTotalGB = 0;
+  oauthUserExpiryDays = 0;
+  oauthUserLimitIP = 0;
+
   tgEnabledEvents = 'login.attempt,cpu.high';
   smtpEnable = false;
   smtpHost = '';
@@ -183,9 +200,12 @@ export class AllSetting {
   hasWarpSecret = false;
   hasNordSecret = false;
   hasSmtpPassword = false;
+  hasOauthClientSecret = false;
+  oauthEnvLocked: Record<string, boolean> = {};
   clearTgBotToken = false;
   clearLdapPassword = false;
   clearSmtpPassword = false;
+  clearOauthClientSecret = false;
   discordBotEnable = false;
   discordBotToken = '';
   discordChannelId = '';
